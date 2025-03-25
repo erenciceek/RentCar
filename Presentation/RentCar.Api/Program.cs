@@ -1,14 +1,19 @@
 using RentCar.Application.Services.CarServices;
+using RentCar.Application.Services.UserServices;
 using RentCar.Persistence.Context;
 using RentCar.Persistence.Repositories.CarRepositories;
+using RentCar.Persistence.Repositories.UserRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<RentCarDbContext>();
 builder.Services.AddControllers();
+
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<ICarServices, CarServices>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserServices, UserServices>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
