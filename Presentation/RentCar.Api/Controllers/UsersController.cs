@@ -54,6 +54,14 @@ namespace RentCar.Api.Controllers
         }
 
 
+        [HttpGet("getAllUsersChatGpt")]
+        public async Task<IActionResult> GetAllUsersChatGpt()
+        {
+            var result = await _userServices.GetAllUsersCreaByChatGpt();
+            return Ok(result);
+        }
+
+
 
 
 

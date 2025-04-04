@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RentCar.Application.Dtos.RentedCarDtos;
 using RentCar.Domain.Entities;
 
 namespace RentCar.Application.Dtos.UserDtos
@@ -17,6 +18,6 @@ namespace RentCar.Application.Dtos.UserDtos
         public string Password { get; set; }
         public string Role { get; set; }
 
-        public List<RentedCar> RentedCars { get; set; }
+        public List<OnlyInfoRentedCarDto> RentedCars { get; set; }
     }
 }
