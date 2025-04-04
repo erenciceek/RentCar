@@ -89,41 +89,7 @@ namespace RentCar.Application.Services.UserServices
             }
             return result;
         }
-        public async Task<List<ResultUserDto>> GetAllUsersCreaByChatGpt()
-        {
-            var users = await _userRepository.GetAllUsersAsync();
-
-            var result = await Task.WhenAll(users.Select(async user =>
-            {
-                var rentedCars = await _rentedCarRepository.GetRentedCarsByUserId(user.Id);
-
-                var rentedCarDtos = await Task.WhenAll(rentedCars.Select(async rent => new OnlyInfoRentedCarDto
-                {
-                    Id = rent.Id,
-                    CarId = rent.CarId,
-                    StartDate = rent.StartDate,
-                    EndDate = rent.EndDate,
-                    DamagePrice = rent.DamagePrice,
-                    TotalPrice = rent.TotalPrice,
-                    IsCompleted = rent.IsCompleted,
-                    Car = await _carRepository.GetByIdCarAsync(rent.CarId)
-                }));
-
-                return new ResultUserDto
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    Email = user.Email,
-                    Phone = user.Phone,
-                    Password = user.Password,
-                    Role = user.Role,
-                    RentedCars = rentedCarDtos.ToList()
-                };
-            }));
-
-            return result.ToList();
-        }
+        
 
         public async Task<GetByIdUserDto> GetByIdUser(int id)
         {
