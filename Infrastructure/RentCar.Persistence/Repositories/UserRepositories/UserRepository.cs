@@ -47,5 +47,10 @@ namespace RentCar.Persistence.Repositories.UserRepositories
             _context.Users.Update(entity);
             await _context.SaveChangesAsync();
         }
+        public async Task<User> CheckUser(string email, string password)
+        {
+            var user = await _context.Users.Where(x => x.Email == email && x.Password == password).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }

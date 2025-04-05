@@ -14,5 +14,6 @@ namespace RentCar.Persistence.Repositories.UserRepositories
         Task CreateUserAsync(User entity);
         Task UpdateUserAsync(User entity);
         Task DeleteUserAsync(User entity);
+        Task<User> CheckUser(string email, string password);
     }
 }
