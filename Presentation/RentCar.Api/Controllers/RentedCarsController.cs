@@ -28,7 +28,7 @@ namespace RentCar.Api.Controllers
             var result = await _services.GetByIdRentedCar(id);
             return Ok(result);
         }
-
+        [Authorize(Roles = "admin,user")]
         [HttpPost("createRentedCar")]
         public async Task<IActionResult> CreateRentedCar(CreateRentedCarDto dto)
         {

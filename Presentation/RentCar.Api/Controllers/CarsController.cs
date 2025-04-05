@@ -30,21 +30,21 @@ namespace RentCar.Api.Controllers
             var result = await _services.GetByIdCar(id);
             return Ok(result);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost("createcar")]
         public async Task<IActionResult> CreateCar(CreateCarDto dto)
         {
             await _services.CreateCar(dto);
             return Ok("The car is created");
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPut("updatecar")]
         public async Task<IActionResult> UpdateCar(UpdateCarDto dto)
         {
             await _services.UpdateCar(dto);
             return Ok("The car is updated");
         }
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("deletecar")]
         public async Task<IActionResult> DeleteCar(int id)
         {
