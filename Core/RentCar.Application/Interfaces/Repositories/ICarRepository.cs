@@ -1,11 +1,9 @@
-﻿using RentCar.Domain.Entities;
+using RentCar.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace RentCar.Persistence.Repositories.CarRepositories
+namespace RentCar.Application.Interfaces.Repositories
 {
     public interface ICarRepository
     {
@@ -14,6 +12,5 @@ namespace RentCar.Persistence.Repositories.CarRepositories
         Task CreateCarAsync(Car entity);
         Task UpdateCarAsync(Car entity);
         Task DeleteCarAsync(Car entity);
-
     }
-}
+} 

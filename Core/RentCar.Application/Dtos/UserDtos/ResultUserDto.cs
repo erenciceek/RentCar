@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,24 @@ namespace RentCar.Application.Dtos.UserDtos
     public class ResultUserDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+        
+        [Required]
+        public string Name { get; set; } = null!;
+        
+        [Required]
+        public string Surname { get; set; } = null!;
+        
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
+        
+        [Required]
+        [Phone]
+        public string Phone { get; set; } = null!;
+        
+        [Required]
+        public string Role { get; set; } = null!;
 
-        public List<OnlyInfoRentedCarDto> RentedCars { get; set; }
+        public List<OnlyInfoRentedCarDto> RentedCars { get; set; } = new();
     }
 }

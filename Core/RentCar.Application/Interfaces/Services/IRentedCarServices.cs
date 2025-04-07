@@ -1,12 +1,9 @@
-﻿using RentCar.Application.Dtos.RentedCarDtos;
-using RentCar.Application.Dtos.UserDtos;
+using RentCar.Application.Dtos.RentedCarDtos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace RentCar.Application.Services.RentedCarServices
+namespace RentCar.Application.Interfaces.Services
 {
     public interface IRentedCarServices
     {
@@ -16,4 +13,4 @@ namespace RentCar.Application.Services.RentedCarServices
         Task UpdateRentedCar(UpdateRentedCarDto dto);
         Task DeleteRentedCar(int id);
     }
-}
+} 

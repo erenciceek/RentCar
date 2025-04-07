@@ -1,11 +1,9 @@
-﻿using RentCar.Domain.Entities;
+using RentCar.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace RentCar.Persistence.Repositories.RentedCarRepositories
+namespace RentCar.Application.Interfaces.Repositories
 {
     public interface IRentedCarRepository
     {
@@ -16,4 +14,4 @@ namespace RentCar.Persistence.Repositories.RentedCarRepositories
         Task DeleteRentedCarAsync(RentedCar entity);
         Task<List<RentedCar>> GetRentedCarsByUserId(int userId);
     }
-}
+} 

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentCar.Application.Dtos.CarDtos;
+using RentCar.Application.Interfaces.Services;
 using RentCar.Application.Services.CarServices;
+using RentCar.Domain.Constants;
 
 namespace RentCar.Api.Controllers
 {
@@ -14,42 +16,63 @@ namespace RentCar.Api.Controllers
         private readonly ICarServices _services;
         public CarsController(ICarServices services)
         {
-            _services = services;
+            _services = services ?? throw new ArgumentNullException(nameof(services));
         }
 
-        [HttpGet("getallcars")]
+        [HttpGet]
+        [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Manager},{RoleConstants.User},{RoleConstants.Guest}")]
         public async Task<IActionResult> GetAllCars()
         {
             var result = await _services.GetAllCars();
-            return Ok(result);
+            return result == null ? NotFound("No cars found") : Ok(result);
         }
 
-        [HttpGet("getbyidcar")]
+        [HttpGet("{id}")]
+        [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Manager},{RoleConstants.User},{RoleConstants.Guest}")]
         public async Task<IActionResult> GetByIdCar(int id)
         {
+            if (id <= 0)
+                return BadRequest("Invalid ID value");
+
             var result = await _services.GetByIdCar(id);
-            return Ok(result);
+            return result == null ? NotFound($"Car with ID: {id} not found") : Ok(result);
         }
-        [Authorize(Roles = "admin")]
-        [HttpPost("createcar")]
-        public async Task<IActionResult> CreateCar(CreateCarDto dto)
+
+        [HttpPost]
+        [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Manager}")]
+        public async Task<IActionResult> CreateCar([FromBody] CreateCarDto dto)
         {
+            if (dto == null)
+                return BadRequest("Car information cannot be empty");
+
             await _services.CreateCar(dto);
-            return Ok("The car is created");
+            return Ok("Car created successfully");
         }
-        [Authorize(Roles = "admin")]
-        [HttpPut("updatecar")]
-        public async Task<IActionResult> UpdateCar(UpdateCarDto dto)
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Manager}")]
+        public async Task<IActionResult> UpdateCar(int id, [FromBody] UpdateCarDto dto)
         {
+            if (dto == null)
+                return BadRequest("Car information to update cannot be empty");
+
+            if (id <= 0)
+                return BadRequest("Invalid ID value");
+
+            dto.Id = id; // Route'dan gelen ID'yi DTO'ya atıyoruz
             await _services.UpdateCar(dto);
-            return Ok("The car is updated");
+            return Ok("Car updated successfully");
         }
-        [Authorize(Roles = "admin")]
-        [HttpDelete("deletecar")]
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteCar(int id)
         {
+            if (id <= 0)
+                return BadRequest("Invalid ID value");
+
             await _services.DeleteCar(id);
-            return Ok("The car is deleted");
+            return Ok("Car deleted successfully");
         }
     }
 }

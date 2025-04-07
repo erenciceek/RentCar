@@ -1,21 +1,17 @@
-﻿using RentCar.Application.Dtos.AuthDtos;
-using RentCar.Application.Dtos.CarDtos;
 using RentCar.Application.Dtos.UserDtos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace RentCar.Application.Services.UserServices
+namespace RentCar.Application.Interfaces.Services
 {
     public interface IUserServices
     {
         Task<List<ResultUserDto>> GetAllUsers();
         Task<GetByIdUserDto> GetByIdUser(int id);
+        Task<OnlyInfoUserDto> GetByEmail(string email);
         Task CreateUser(CreateUserDto dto);
         Task UpdateUser(UpdateUserDto dto);
         Task DeleteUser(int id);
-        Task<OnlyInfoUserDto> CheckUser(LoginDto dto);
     }
-}
+} 

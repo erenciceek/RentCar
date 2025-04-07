@@ -15,10 +15,7 @@ namespace RentCar.Application.Dtos.UserDtos
         public string Surname { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string Password { get; set; }
         public string Role { get; set; }
-
         public List<OnlyInfoRentedCarDto> RentedCars { get; set; }
-
     }
 }

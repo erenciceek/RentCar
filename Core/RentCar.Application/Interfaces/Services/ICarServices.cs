@@ -1,11 +1,11 @@
-﻿using RentCar.Application.Dtos.CarDtos;
+using RentCar.Application.Dtos.CarDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RentCar.Application.Services.CarServices
+namespace RentCar.Application.Interfaces.Services
 {
     public interface ICarServices
     {
@@ -14,7 +14,5 @@ namespace RentCar.Application.Services.CarServices
         Task CreateCar(CreateCarDto dto);
         Task UpdateCar(UpdateCarDto dto);
         Task DeleteCar(int id);
-
-
     }
-}
+} 

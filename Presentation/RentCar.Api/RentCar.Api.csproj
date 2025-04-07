@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\RentCar.Application\RentCar.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\RentCar.Persistence\RentCar.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

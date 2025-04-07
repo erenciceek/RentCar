@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RentCar.Application.Dtos.AuthDtos;
-using RentCar.Application.Services.UserServices;
-using RentCar.Persistence.Services.AuthServices;
+using RentCar.Application.Interfaces.Services;
+using RentCar.Application.Services.AuthServices;
 
 namespace RentCar.Api.Controllers
 {
@@ -11,24 +11,46 @@ namespace RentCar.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthServices _authServices;
-        private readonly IUserServices _userServices;
-        public AuthController(IAuthServices authServices, IUserServices userServices)
+
+        public AuthController(IAuthServices authServices)
         {
-            _authServices = authServices;
-            _userServices = userServices;
+            _authServices = authServices ?? throw new ArgumentNullException(nameof(authServices));
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto model)
         {
-            var user = await _userServices.CheckUser(model);
-            if (user != null)
+            if (model == null)
+                return BadRequest("Login credentials cannot be empty");
+
+            var token = await _authServices.LoginAsync(model);
+            if (token != null)
             {
-                var token = _authServices.GenerateToken(user.Id.ToString(), user.Role);
                 return Ok(new { jwtToken = token });
             }
-            return Unauthorized();
+            return Unauthorized("Invalid username or password");
+        }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterDto model)
+        {
+            if (model == null)
+                return BadRequest("Registration data cannot be empty");
+
+            try
+            {
+                var result = await _authServices.RegisterAsync(model);
+                if (result == null)
+                {
+                    return BadRequest("Registration failed. User might already exist.");
+                }
+
+                return Ok(new { jwtToken = result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Registration failed: {ex.Message}");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using RentCar.Application.Dtos.CarDtos;
+using RentCar.Application.Interfaces.Services;
+using RentCar.Application.Interfaces.Repositories;
 using RentCar.Domain.Entities;
-using RentCar.Persistence.Repositories.CarRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,18 @@ namespace RentCar.Application.Services.CarServices
     {
         private readonly ICarRepository _repository;
 
-        public CarServices (ICarRepository repository)
+        public CarServices(ICarRepository repository)
         {
-            _repository = repository;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task CreateCar(CreateCarDto dto)
         {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            ValidateCarDto(dto);
+
             var value = new Car
             {
                 ImageUrl = dto.ImageUrl,
@@ -37,13 +43,22 @@ namespace RentCar.Application.Services.CarServices
 
         public async Task DeleteCar(int id)
         {
+            if (id <= 0)
+                throw new ArgumentException("Invalid ID value", nameof(id));
+
             var value = await _repository.GetByIdCarAsync(id);
+            if (value == null)
+                throw new KeyNotFoundException($"Car with ID: {id} not found");
+
             await _repository.DeleteCarAsync(value);
         }
 
         public async Task<List<ResultCarDto>> GetAllCars()
         {
             var value = await _repository.GetAllCarsAsync();
+            if (value == null || !value.Any())
+                return new List<ResultCarDto>();
+
             var result = value.Select(x => new ResultCarDto
             {
                 Id = x.Id,
@@ -62,7 +77,13 @@ namespace RentCar.Application.Services.CarServices
 
         public async Task<GetByIdCarDto> GetByIdCar(int id)
         {
+            if (id <= 0)
+                throw new ArgumentException("Invalid ID value", nameof(id));
+
             var value = await _repository.GetByIdCarAsync(id);
+            if (value == null)
+                throw new KeyNotFoundException($"Car with ID: {id} not found");
+
             var result = new GetByIdCarDto
             {
                 Id = value.Id,
@@ -81,7 +102,18 @@ namespace RentCar.Application.Services.CarServices
 
         public async Task UpdateCar(UpdateCarDto dto)
         {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+
+            if (dto.Id <= 0)
+                throw new ArgumentException("Invalid ID value", nameof(dto.Id));
+
+            ValidateCarDto(dto);
+
             var value = await _repository.GetByIdCarAsync(dto.Id);
+            if (value == null)
+                throw new KeyNotFoundException($"Car with ID: {dto.Id} not found");
+
             value.ImageUrl = dto.ImageUrl;
             value.Brand = dto.Brand;
             value.Model = dto.Model;
@@ -93,6 +125,42 @@ namespace RentCar.Application.Services.CarServices
             value.IsAvailable = dto.IsAvailable;
 
             await _repository.UpdateCarAsync(value);
+        }
+
+        private void ValidateCarDto(CreateCarDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Brand))
+                throw new ArgumentException("Brand cannot be empty", nameof(dto.Brand));
+
+            if (string.IsNullOrWhiteSpace(dto.Model))
+                throw new ArgumentException("Model cannot be empty", nameof(dto.Model));
+
+            if (dto.Year <= 0)
+                throw new ArgumentException("Invalid year value", nameof(dto.Year));
+
+            if (dto.KM < 0)
+                throw new ArgumentException("KM value cannot be negative", nameof(dto.KM));
+
+            if (dto.DailyPrice <= 0)
+                throw new ArgumentException("Daily price must be greater than 0", nameof(dto.DailyPrice));
+        }
+
+        private void ValidateCarDto(UpdateCarDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Brand))
+                throw new ArgumentException("Brand cannot be empty", nameof(dto.Brand));
+
+            if (string.IsNullOrWhiteSpace(dto.Model))
+                throw new ArgumentException("Model cannot be empty", nameof(dto.Model));
+
+            if (dto.Year <= 0)
+                throw new ArgumentException("Invalid year value", nameof(dto.Year));
+
+            if (dto.KM < 0)
+                throw new ArgumentException("KM value cannot be negative", nameof(dto.KM));
+
+            if (dto.DailyPrice <= 0)
+                throw new ArgumentException("Daily price must be greater than 0", nameof(dto.DailyPrice));
         }
     }
 }

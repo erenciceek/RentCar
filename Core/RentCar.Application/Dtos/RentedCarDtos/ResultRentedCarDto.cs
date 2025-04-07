@@ -2,6 +2,7 @@
 using RentCar.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,15 @@ namespace RentCar.Application.Dtos.RentedCarDtos
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public OnlyInfoUserDto User { get; set; }
+        
+        [Required]
+        public OnlyInfoUserDto User { get; set; } = null!;
+        
         public int CarId { get; set; }
-        public Car Car { get; set; }
+        
+        [Required]
+        public Car Car { get; set; } = null!;
+        
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal TotalPrice { get; set; }
