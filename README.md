@@ -1,98 +1,204 @@
 # RentCar API
 
-A RESTful API project developed for managing car rental operations. Built with .NET Core 7.0.
+A comprehensive car rental management system built with .NET Core 8.0, implementing clean architecture principles and modern security practices.
 
 ## Features
 
-- JWT-based authentication and authorization
-- Role-based authorization (Admin, Manager, User, Guest)
-- Secure password hashing (PBKDF2 with SHA256)
-- Database operations with Entity Framework Core
-- SOLID principles compliant architecture
-- Repository and Service pattern implementation
+- **Authentication & Authorization**
+  - JWT-based authentication
+  - Role-based access control
+  - Secure password hashing using PBKDF2 with SHA256
+  - Token-based session management
 
-## Technologies
+- **Architecture & Design**
+  - Clean Architecture implementation
+  - SOLID principles
+  - Repository & Unit of Work patterns
+  - Service Layer pattern
+  - Rich domain model
 
-- .NET Core 7.0
-- Entity Framework Core
-- JWT (JSON Web Token)
-- SQL Server
-- Swagger/OpenAPI
+- **Database**
+  - Entity Framework Core with SQL Server
+  - Code-first migrations
+  - Fluent API configurations
+  - Efficient query optimization
 
-## Architecture Layers
+- **Security**
+  - Password hashing with salt
+  - JWT token validation
+  - Role-based authorization
+  - Input validation and sanitization
 
-### Core Layer
-- **RentCar.Domain**: Entities, constants, and helper classes
-- **RentCar.Application**: Business logic, services, DTOs, and interfaces
+## Technology Stack
 
-### Infrastructure Layer
-- **RentCar.Persistence**: Database operations, repository implementations
+- **Backend**
+  - .NET Core 8.0
+  - Entity Framework Core
+  - Microsoft SQL Server
 
-### Presentation Layer
-- **RentCar.Api**: API endpoints, controllers
+- **Security & Authentication**
+  - JWT Bearer Authentication
+  - PBKDF2 Password Hashing
+  - Role-based Authorization
 
-## User Roles
+- **Documentation**
+  - Swagger/OpenAPI
 
-- **Admin**: Full access to all features
-- **Manager**: Can manage users and vehicles
-- **User**: Can perform car rental operations
-- **Guest**: Can only view cars
+## Project Structure
+
+```
+RentCar/
+├── Core/
+│   ├── RentCar.Domain/
+│   │   ├── Constants/
+│   │   ├── Entities/
+│   │   └── Helpers/
+│   └── RentCar.Application/
+│       ├── Dtos/
+│       ├── Interfaces/
+│       ├── Services/
+│       └── Validators/
+├── Infrastructure/
+│   └── RentCar.Persistence/
+│       ├── Context/
+│       └── Repositories/
+└── Presentation/
+    └── RentCar.Api/
+        └── Controllers/
+```
 
 ## API Endpoints
 
-### Authentication Operations
-- POST /api/auth/register - Register new user
-- POST /api/auth/login - User login
+### Authentication
+```http
+POST /api/auth/register
+POST /api/auth/login
+```
 
-### User Operations
-- GET /api/users - List all users (Admin, Manager)
-- GET /api/users/{id} - User details (Admin, Manager)
-- POST /api/users - Create new user (Admin)
-- PUT /api/users/{id} - Update user (Admin)
-- DELETE /api/users/{id} - Delete user (Admin)
+### Users
+```http
+GET    /api/users
+GET    /api/users/{id}
+POST   /api/users
+PUT    /api/users/{id}
+DELETE /api/users/{id}
+```
 
-### Security Requirements
+### Cars
+```http
+GET    /api/cars
+GET    /api/cars/{id}
+POST   /api/cars
+PUT    /api/cars/{id}
+DELETE /api/cars/{id}
+```
 
-#### Password Requirements:
+### Rentals
+```http
+GET    /api/rentedcars
+GET    /api/rentedcars/{id}
+POST   /api/rentedcars
+PUT    /api/rentedcars/{id}
+DELETE /api/rentedcars/{id}
+```
+
+## Role-Based Access Control
+
+### Admin
+- Full system access
+- User management
+- Car management
+- Rental management
+- System configuration
+
+### Manager
+- User viewing
+- Car management
+- Rental management
+- Reports viewing
+
+### User
+- View available cars
+- Create rental requests
+- Manage own rentals
+- View rental history
+
+### Guest
+- View available cars
+- Register account
+
+## Security Implementation
+
+### Password Requirements
 - Minimum 8 characters
 - At least one uppercase letter
 - At least one lowercase letter
 - At least one number
 - At least one special character
 
-## Status Codes
-
-- 200: Success
-- 400: Bad Request
-- 401: Unauthorized
-- 403: Forbidden
-- 404: Not Found
-- 500: Server Error
+### JWT Configuration
+- Token expiration: 24 hours
+- Secure key storage
+- Role-based claims
+- Token refresh mechanism
 
 ## Installation
 
-1. Clone the project
+1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/RentCar.git
 ```
 
-2. Create the database
+2. Update database connection string in `appsettings.json`
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER;Database=RentCar;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+```
+
+3. Apply database migrations
 ```bash
 dotnet ef database update
 ```
 
-3. Run the project
+4. Run the application
 ```bash
 dotnet run
 ```
 
+## API Response Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | Success |
+| 400 | Bad Request - Invalid input |
+| 401 | Unauthorized - Authentication required |
+| 403 | Forbidden - Insufficient permissions |
+| 404 | Not Found - Resource doesn't exist |
+| 500 | Server Error - Internal server error |
+
 ## Development
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch
+```bash
+git checkout -b feature/AmazingFeature
+```
+3. Commit your changes
+```bash
+git commit -m 'Add some AmazingFeature'
+```
+4. Push to the branch
+```bash
+git push origin feature/AmazingFeature
+```
 5. Open a Pull Request
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
