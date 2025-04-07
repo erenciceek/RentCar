@@ -146,7 +146,7 @@ DELETE /api/rentedcars/{id}
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/RentCar.git
+git clone https://github.com/erenciceek/RentCar.git
 ```
 
 2. Update database connection string in `appsettings.json`
