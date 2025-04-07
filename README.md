@@ -1,6 +1,6 @@
 # RentCar API
 
-A RESTful API project developed for managing car rental operations. Built with .NET Core 7.0.
+A RESTful API project developed for managing car rental operations. Built with .NET Core 8.0.
 
 ## Features
 
@@ -10,10 +10,11 @@ A RESTful API project developed for managing car rental operations. Built with .
 - Database operations with Entity Framework Core
 - SOLID principles compliant architecture
 - Repository and Service pattern implementation
+- Onion Architecture
 
 ## Technologies
 
-- .NET Core 7.0
+- .NET Core 8.0
 - Entity Framework Core
 - JWT (JSON Web Token)
 - SQL Server
@@ -73,7 +74,7 @@ A RESTful API project developed for managing car rental operations. Built with .
 
 1. Clone the project
 ```bash
-git clone https://github.com/yourusername/RentCar.git
+git clone https://github.com/erenciceek/RentCar.git
 ```
 
 2. Create the database
