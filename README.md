@@ -11,7 +11,7 @@ A comprehensive car rental management system built with .NET Core 8.0, implement
   - Token-based session management
 
 - **Architecture & Design**
-  - Clean Architecture implementation
+  - Onion (Clean) Architecture implementation
   - SOLID principles
   - Repository & Unit of Work patterns
   - Service Layer pattern
@@ -179,33 +179,7 @@ dotnet run
 | 404 | Not Found - Resource doesn't exist |
 | 500 | Server Error - Internal server error |
 
-## Development
-
-1. Fork the repository
-2. Create your feature branch
-```bash
-git checkout -b feature/AmazingFeature
-```
-3. Commit your changes
-```bash
-git commit -m 'Add some AmazingFeature'
-```
-4. Push to the branch
-```bash
-git push origin feature/AmazingFeature
-```
-5. Open a Pull Request
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-Project Owner - [Email Address]
-
-Project Link: [https://github.com/yourusername/RentCar](https://github.com/yourusername/RentCar)
